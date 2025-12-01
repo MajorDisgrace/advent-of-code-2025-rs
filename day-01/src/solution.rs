@@ -1,5 +1,28 @@
-pub fn solve_part_1(input: &str) -> isize {
-    0
+pub fn solve_part_1(input: &str) -> i32 {
+    let mut dial = 50;
+    let mut passwd = 0;
+
+    for line in input.lines() {
+        let direction = line.chars().next().expect("Input file has empty lines!");
+
+        let rotations: i32 = line
+            .get(1..)
+            .expect("Input contains lines with less than two characters!")
+            .parse()
+            .expect("Input contains lines that cannot be parsed!");
+
+        dial = match direction {
+            'L' => (dial - rotations) % 100,
+            'R' => (dial + rotations) % 100,
+            _ => panic!("Input contains lines that don't start with L or R!"),
+        };
+
+        if dial == 0 {
+            passwd += 1;
+        }
+    }
+
+    return passwd;
 }
 
 pub fn solve_part_2(input: &str) -> isize {
@@ -23,7 +46,7 @@ L82";
 
     #[test]
     fn test_part_1() {
-        assert_eq!(solve_part_1(TEST_INPUT), 0);
+        assert_eq!(solve_part_1(TEST_INPUT), 3);
     }
 
     #[test]
