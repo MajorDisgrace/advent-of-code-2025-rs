@@ -1,0 +1,5 @@
+[editor]
+auto-completion = false
+
+[editor.lsp]
+display-inlay-hints = true
