@@ -2,5 +2,5 @@
 scope = "source.rs"
 file-types = ["rs"]
 indent = { tab-width = 4, unit = "    " }
-formatter = { command = "rustfmt" }
+formatter = { command = "" }
 auto-format = false
