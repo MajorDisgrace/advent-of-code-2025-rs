@@ -2,25 +2,55 @@ pub fn solve_part_1(input: &str) -> i64 {
     return input
         .trim()
         .split(',')
-        .map(|s| {
-            let vec: Vec<&str> = s.split('-').collect();
-            let start: i64 = (*vec.get(0).expect("Each range should contain a start!"))
-                .parse()
-                .expect("Input contains Items that are not numbers");
-
-            let end: i64 = (*vec.get(1).expect("Each range should contain an end!"))
-                .parse()
-                .expect("Input contains Items that are not numbers");
-
-            return (start, end);
-        })
-        .flat_map(|t| t.0..=t.1)
+        .flat_map(|s| str_to_range(s))
         .filter(|n| is_symmetric(*n))
         .sum();
 }
 
-pub fn solve_part_2(input: &str) -> i32 {
-    0
+pub fn solve_part_2(input: &str) -> i64 {
+    return input
+        .trim()
+        .split(',')
+        .flat_map(|s| str_to_range(s))
+        .filter(|n| is_repeating(*n))
+        .sum();
+}
+
+fn str_to_range(input: &str) -> core::ops::RangeInclusive<i64> {
+    let mut boundaries = input.split('-');
+
+    let start: i64 = boundaries
+        .next()
+        .expect("Each range should contain a start!")
+        .parse()
+        .expect("Input contains Items that are not numbers");
+
+    let end: i64 = boundaries
+        .next()
+        .expect("Each range should contain an end!")
+        .parse()
+        .expect("Input contains Items that are not numbers");
+
+    return start..=end;
+}
+
+fn is_repeating(n: i64) -> bool {
+    let s = n.to_string();
+    let len = s.len();
+
+    for sub_len in 1..=(len / 2) {
+        if len % sub_len != 0 {
+            continue;
+        }
+
+        let sub_str = &s[..sub_len];
+
+        if s == sub_str.repeat(len / sub_len) {
+            return true;
+        }
+    }
+
+    false
 }
 
 fn is_symmetric(n: i64) -> bool {
@@ -50,6 +80,6 @@ mod tests {
 
     #[test]
     fn test_part_2() {
-        assert_eq!(solve_part_2(TEST_INPUT), 0);
+        assert_eq!(solve_part_2(TEST_INPUT), 4174379265);
     }
 }
