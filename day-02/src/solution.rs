@@ -1,5 +1,6 @@
 pub fn solve_part_1(input: &str) -> i64 {
     return input
+        .trim()
         .split(',')
         .map(|s| {
             let vec: Vec<&str> = s.split('-').collect();
@@ -19,7 +20,6 @@ pub fn solve_part_1(input: &str) -> i64 {
                 0 => 1,
                 _ => n.abs().ilog10() as u32 + 1,
             };
-            // println!("{}", digits);
             let pow_of_10 = (10 as i64).pow(digits / 2);
             return match digits % 2 {
                 1 => false,
