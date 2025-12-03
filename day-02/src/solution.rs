@@ -15,23 +15,26 @@ pub fn solve_part_1(input: &str) -> i64 {
             return (start, end);
         })
         .flat_map(|t| t.0..=t.1)
-        .filter(|n| {
-            let digits = match n {
-                0 => 1,
-                _ => n.abs().ilog10() as u32 + 1,
-            };
-            let pow_of_10 = (10 as i64).pow(digits / 2);
-            return match digits % 2 {
-                1 => false,
-                0 => n / pow_of_10 == n - (n / pow_of_10) * pow_of_10,
-                _ => panic!("Something is very wrong!"),
-            };
-        })
+        .filter(|n| is_symmetric(*n))
         .sum();
 }
 
 pub fn solve_part_2(input: &str) -> i32 {
     0
+}
+
+fn is_symmetric(n: i64) -> bool {
+    let digits = match n {
+        0 => 1,
+        _ => n.abs().ilog10() as u32 + 1,
+    };
+
+    if digits % 2 == 1 {
+        return false;
+    }
+
+    let center = (10 as i64).pow(digits / 2);
+    return n / center == n - (n / center) * center;
 }
 
 #[cfg(test)]
