@@ -10,7 +10,10 @@ pub fn solve_part_2(input: &str) -> i32 {
 mod tests {
     use super::*;
 
-    const TEST_INPUT: &str = "";
+    const TEST_INPUT: &str = "987654321111111
+811111111111119
+234234234234278
+818181911112111";
 
     #[test]
     fn test_part_1() {
