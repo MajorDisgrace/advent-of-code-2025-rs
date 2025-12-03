@@ -7,7 +7,7 @@ pub fn solve_part_1(input: &str) -> i32 {
             .chars()
             .map(|c| {
                 c.to_digit(10)
-                    .expect("There are non Number values in the Input!") as usize
+                    .expect("There are non number values in the Input!") as usize
             })
             .collect();
 
@@ -31,8 +31,35 @@ pub fn solve_part_1(input: &str) -> i32 {
     return count as i32;
 }
 
-pub fn solve_part_2(input: &str) -> i32 {
-    0
+pub fn solve_part_2(input: &str) -> usize {
+    let banks = input.trim().split('\n');
+
+    let mut count = 0;
+    for bank in banks {
+        let batteries: Vec<usize> = bank
+            .chars()
+            .map(|c| {
+                c.to_digit(10)
+                    .expect("There are non number values in the Input!") as usize
+            })
+            .collect();
+
+        let mut joltage = 0;
+        let mut start_index = 0;
+        for i in (0..12).rev() {
+            let current_battery = (start_index..(batteries.len() - i))
+                .rev()
+                .max_by(|x, y| batteries[*x].cmp(&batteries[*y]))
+                .expect("There should be at least 12 numbers in every line");
+
+            const TEN: usize = 10;
+            joltage += batteries[current_battery] * TEN.pow(i as u32);
+            start_index = current_battery + 1;
+        }
+        count += joltage;
+    }
+
+    return count;
 }
 
 #[cfg(test)]
@@ -51,6 +78,6 @@ mod tests {
 
     #[test]
     fn test_part_2() {
-        assert_eq!(solve_part_2(TEST_INPUT), 0);
+        assert_eq!(solve_part_2(TEST_INPUT), 3121910778619);
     }
 }
