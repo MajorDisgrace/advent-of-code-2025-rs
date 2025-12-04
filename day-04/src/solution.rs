@@ -1,10 +1,14 @@
 pub fn solve_part_1(input: &str) -> i32 {
+    let input = input.trim();
+
     0
 }
 
 pub fn solve_part_2(input: &str) -> i32 {
     0
 }
+
+fn str_to_vec_matrix(s: &str) -> Vec<Vec<u8>> {}
 
 #[cfg(test)]
 mod tests {
